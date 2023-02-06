@@ -30,3 +30,8 @@ app.get('/signup', (req, res) => {
 app.listen(3000, () => {
   console.log('Server is running');
 });
+
+/*
+For connecting with Mongo DB
+mongodb+srv://<username>:<password>@cluster0.kgszmri.mongodb.net/?retryWrites=true&w=majority
+*/
