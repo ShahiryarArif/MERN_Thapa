@@ -1,9 +1,6 @@
 import express from 'express';
 const app = express();
 
-/*
-  This runs befor the listner
-*/
 const middleware = (req, res, next) => {
   console.log('Hello my Middleware');
   next();
