@@ -1,24 +1,9 @@
 import express from 'express';
-import mongoose from 'mongoose';
+import './env.js';
+import './db/conn.js';
 const app = express();
 
-const DB = `mongodb+srv://admin:admin@cluster0.kgszmri.mongodb.net/mern_thapa?retryWrites=true&w=majority`;
-
-/*
-In case get a depreciation warning
-useNewUrlParser: true,
-useCreateIndex: true,
-useUnifiedTopology: true,
-useFindAndModify: false
-*/
-mongoose
-  .connect(DB)
-  .then(() => {
-    console.log('connection successful');
-  })
-  .catch((err) => {
-    console.log('no conneection');
-  });
+const PORT = process.env.PORT;
 
 const middleware = (req, res, next) => {
   console.log('Hello my Middleware');
