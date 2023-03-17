@@ -1,9 +1,14 @@
 import express from 'express';
 import './env.js';
 import './db/conn.js';
+import auth from './routes/auth.js';
 const app = express();
 
 const PORT = process.env.PORT;
+
+app.use(express.json());
+
+app.use(auth);
 
 const middleware = (req, res, next) => {
   console.log('Hello my Middleware');
