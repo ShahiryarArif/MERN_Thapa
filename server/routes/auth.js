@@ -2,6 +2,9 @@ import express from 'express';
 import User from './../model/userSchema';
 const router = express.Router();
 
+/*
+! Through Promises
+
 router.post('/register', (req, res) => {
   const { name, email, phone, work, password, cpassword } = req.body;
 
@@ -25,6 +28,34 @@ router.post('/register', (req, res) => {
       })
       .catch((err) => console.log(err));
   });
+
+  console.log(req.body);
+  res.send('page');
+});
+*/
+
+router.post('/register', async (req, res) => {
+  const { name, email, phone, work, password, cpassword } = req.body;
+
+  if (!name || !email || !phone || !work || !password || !cpassword) {
+    return res.status(422).json({ error: 'Please fill the field properly' });
+  }
+
+  try {
+    const response = await User.findOne({ email });
+
+    if (userExist) {
+      return res.status(422).json({ error: 'Email already exist' });
+    }
+
+    const user = new User({ name, email, phone, work, password, cpassword });
+
+    await user.save();
+
+    res.status(201).json({ message: 'User registered successfully' });
+  } catch (err) {
+    console.log(err);
+  }
 
   console.log(req.body);
   res.send('page');
