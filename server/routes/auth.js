@@ -1,4 +1,5 @@
-import express from 'express';import { bcrypt } from 'bcryptjs';
+import express from 'express';
+import { bcrypt } from 'bcryptjs';
 import User from './../model/userSchema.js';
 const router = express.Router();
 
@@ -75,6 +76,8 @@ router.post('/signin', async (req, res) => {
 
     if (userLogin) {
       const isMatch = await bcrypt.compare(password, userLogin.password);
+
+      const token = await userLogin.generateAuthToken();
       if (!isMatch) {
         res.status(400).json({ error: 'Invalid Credentials' });
       } else {
