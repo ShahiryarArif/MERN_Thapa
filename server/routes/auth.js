@@ -1,4 +1,4 @@
-import express from 'express';
+import express from 'express';import { bcrypt } from 'bcryptjs';
 import User from './../model/userSchema.js';
 const router = express.Router();
 
@@ -74,18 +74,18 @@ router.post('/signin', async (req, res) => {
     const userLogin = await User.findOne({ email: email });
 
     if (userLogin) {
-      res.status(400).json({ error: 'User Error' });
+      const isMatch = await bcrypt.compare(password, userLogin.password);
+      if (!isMatch) {
+        res.status(400).json({ error: 'Invalid Credentials' });
+      } else {
+        res.json({ message: 'User Sign Successfully' });
+      }
     } else {
-      res.json({ message: 'User Sign Successfully' });
+      res.status(400).json({ error: 'Invalid Credentials' });
     }
   } catch (err) {
     console.log(err);
   }
-  const response = User.findOne({ email });
-  //   if (response.email == body.email) {
-
-  //   }
-  console.log(req.body, response);
 });
 
 export default router;
